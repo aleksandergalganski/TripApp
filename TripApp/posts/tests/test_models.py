@@ -4,6 +4,7 @@ from django.utils import timezone
 
 from ..models import Post
 
+
 class ActivePostsManagerTest(TestCase):
 
     def setUp(self):
@@ -24,10 +25,9 @@ class PostModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='test',
                                              password='testpassword')
-        self.user.save()
         self.post = Post.objects.create(name='test_post', user=self.user, about='...',
                                         location='Kolobrzeg')
-        self.
+
     def test_str_method(self):
         self.assertEquals(str(self.post), f'test_post-test-{self.post.created}')
 
