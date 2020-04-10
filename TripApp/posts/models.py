@@ -45,7 +45,7 @@ class Post(models.Model):
         return self.likes.count()
 
     def save(self, *args, **kwargs):
-        """ Resizing an image"""
+        """ Resizing an image """
         super(Post, self).save(*args, **kwargs)
 
         if self.image:

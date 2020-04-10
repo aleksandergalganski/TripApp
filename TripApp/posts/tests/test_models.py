@@ -8,12 +8,13 @@ from ..models import Post
 class ActivePostsManagerTest(TestCase):
 
     def setUp(self):
+        self.user = User.objects.create_user(username='test', password='testpassword')
         Post.objects.create(name='test_post', user=self.user, about='...',
-                                        location='Kolobrzeg', active=False)
+                            location='Kolobrzeg', active=False)
         Post.objects.create(name='test_post', user=self.user, about='...',
-                                        location='Kolobrzeg', active=True)
+                            location='Kolobrzeg', active=True)
         Post.objects.create(name='test_post', user=self.user, about='...',
-                                        location='Kolobrzeg', active=True)
+                            location='Kolobrzeg', active=True)
 
     def should_return_two_posts(self):
         posts = Post.actives()
