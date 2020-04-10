@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static "css/home_styles.css" %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9fada548c3.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
+    <title>TripApp</title>
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <div class="container">
+                <h1 class="logo"><a href="./home.html"><i class="fas fa-camera-retro fa-2x"></i><span class="logo-text">Trip</span>App</a></h1>
+                <ul>
+                    <li><a href="./login_form.html"><i class="fas fa-sign-in-alt fa-2x"></i>Sign In</a></li>
+                    <li><a href="./register_form.html"><i class="fas fa-user-plus fa-2x"></i>Sign Up</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="photos">
+            <div class="container">
+                <div class="box box-1">
+                    <h1>Travel Around The World</h1>
+                    <img src="{% static "img/adventure-backlit-dawn-dusk-207896.jpg" %}" alt="image">
+                </div>
+                <div class="box box-2">
+                    <h1>Share Photos With Friends</h1>
+                    <img src="{% static "img/person-using-laptop-computer-during-daytime-196655.jpg" %}" alt="image">
+                </div>
+            </div>
+        </section>
+        <section id="join-us">
+                <a href="./register_form.html">Join Us</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>TripApp &copy; 2020, All Rights Reserved</p>
+    </footer>
+
+</body>
+</html>
