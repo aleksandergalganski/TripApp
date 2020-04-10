@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #a0dbd6;
+    line-height: 1.8;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    margin: 30px auto;
+    max-width: 400px;
+    padding: 20px;
+}
+
+/* Header */
+
+.header-container {
+    margin: 0 auto;
+    max-width: 1100px;
+    min-width: 480px;
+    padding: 20px;
+}
+
+#navbar {
+    background: #71c9c1;
+    overflow: auto;
+    padding-bottom: 10px;
+}
+
+#navbar a {
+    color: #04302c;
+}
+
+#navbar h1 {
+    float: left;
+}
+
+#navbar ul {
+    list-style: none;
+    float: right;
+}
+
+#navbar ul li {
+    float: left;
+    margin-right: 20px;
+}
+
+#navbar ul li a:hover {
+    background: #0b635b;
+}
+
+#navbar i {
+    margin-right: 10px;
+}
+
+
+#form-header {
+    text-align: center;
+}
+
+#form-header h1 {
+    color: #04302c;
+}
+
+#form-wrapper {
+    background: #71c9c1;
+    padding: 15px 20px;
+    border-radius: 10px;
+    -webkit-box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
+    -moz-box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
+    box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: #ddd 1px solid;
+    border-radius: 5px;
+    -webkit-box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
+    -moz-box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
+    box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
+}
+
+.form-group input:focus {
+    background: #71c9c1;
+    outline: none;
+    border-color: #13A699;
+    -webkit-box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
+    -moz-box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
+    box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
+}
+
+.btn {
+    display: block;
+    padding: 10px;
+    width: 100%;
+    font-size: 18px;
+    color: white;
+    background: #0b635b;
+    border: 0;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #073834;
+}
+
+.container #bottom-text {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.container #bottom-text a {
+    color: #04302c;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #04302c;
+    background: #71c9c1;
+}
