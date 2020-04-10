@@ -1,42 +1,30 @@
-{% extends "registration_base.html" %}
+{% extends "users/reigstration_base.html" %}
 {% load static %}
-{% blok stylesheet %}
-
-{% endblock %}
+{% block stylesheet %}
     <link rel="stylesheet" href="{% static "css/login_style.css" %}">
+{% endblock %}
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="container">
+    <div class="container">
         <div id="form-wrapper">
             <div id="form-header">
                 <i class="fas fa-camera-retro fa-3x"></i>
-                <h1>Sign Up to InstaClon</h1>
+                <h1>Sign In to InstaClon</h1>
             </div>
-            <form >
+            <form action="login" method="post">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username">
-                </div>
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email">
+                    <input type="text" id="username" name="firstname">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password">
                 </div>
-                <div class="form-group">
-                    <label for="password2">Confirm Password</label>
-                    <input type="password" id="password2" name="password2">
-                </div>
-                <button type="submit" class="btn">Sign Up</button>
+                <button type="submit" class="btn">Sign In</button>
             </form>
         </div>
-        <p id="bottom-text"><a href="{% url "users:login" %}">Already has an account?</a></p>
+        <p id="bottom-text"><a href="./reset_password_form.html">Forgot password?</a> <a href="./register_form.html">Register to use InstaClon</a></p>
     </div>
 {% endblock %}
