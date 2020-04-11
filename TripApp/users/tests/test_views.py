@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from ..models import Profile
+from posts.models import Post
 
 
 class RegisterTest(TestCase):
@@ -92,3 +93,11 @@ class UsersListTest(TestCase):
         response = self.client.get(reverse('users:users_list'))
         self.assertTrue(len(response.context['users']) == 5)
 
+#
+# class UserDetailTest(TestCase):
+#     def setUp(self):
+#         self.user = User.objects.create_user(username='test', password='password')
+#
+#         num_of_posts = 3
+#         for i in range(num_of_posts):
+#             Post.objects.create()

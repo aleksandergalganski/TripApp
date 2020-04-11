@@ -62,7 +62,7 @@ def logout(request):
 @login_required
 def user_detail(request, username):
     user = get_object_or_404(User, username)
-    posts = Post.objects.filter(user=user)
+    posts = Post.objects.filter(user=user).order_by('-created')
     return render(request, 'users/user_detail.html', {'user': 'user',
                                                       'posts': 'posts'})
 

@@ -17,6 +17,18 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('users:user_detail', args=[self.user.username])
 
+    def get_posts_count(self):
+        return self.user.posts.all().count()
+
+    def get_total_likes_count(self):
+        likes_count = 0
+        user_posts = self.user.posts.all()
+
+        for post in user_posts:
+            likes_count += post.likes.count()
+
+        return likes_count
+
     def save(self, *args, **kwargs):
         """ Resizing an image """
         super(Profile, self).save(*args, **kwargs)
