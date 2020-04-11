@@ -55,3 +55,14 @@ class Post(models.Model):
                 output_size = (500, 500)
                 img.thumbnail(output_size)
                 img.save(self.image.path)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
+    body = models.TextField()
+    created = models.DateTimeField(default=timezone.now)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{str(self.post)} commented by {self.user.username}'
