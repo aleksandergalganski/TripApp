@@ -93,11 +93,57 @@ class UsersListTest(TestCase):
         response = self.client.get(reverse('users:users_list'))
         self.assertTrue(len(response.context['users']) == 5)
 
-#
-# class UserDetailTest(TestCase):
-#     def setUp(self):
-#         self.user = User.objects.create_user(username='test', password='password')
-#
-#         num_of_posts = 3
-#         for i in range(num_of_posts):
-#             Post.objects.create()
+
+class UserDetailTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='test', password='password')
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get(f'/users/detail/{self.user.pk}/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('users:user_detail', kwargs={'user_id': self.user.pk}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(f'/users/detail/{self.user.pk}/')
+        self.assertTemplateUsed(response, 'users/user_detail.html')
+
+
+class UserEditTest(TestCase):
+    def setUp(self):
+        self.user1 = User.objects.create_user(username='user1', password='user1')
+        self.profile1 = Profile.objects.create(user=self.user1)
+        self.user2 = User.objects.create_user(username='user2', password='user2')
+        self.profile2 = Profile.objects.create(user=self.user2)
+
+    def test_authorized_user(self):
+        self.client.login(username='user1', password='user1')
+        response = self.client.get(reverse('users:edit_user', kwargs={'user_id': self.user1.pk}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_unauthorized_user(self):
+        self.client.login(username='user2', password='user2')
+        response = self.client.get(reverse('users:edit_user', kwargs={'user_id': self.user1.pk}))
+        self.assertEqual(response.status_code, 403)
+
+    def test_post_data(self):
+        self.client.login(username='user1', password='user1')
+        data = {
+            'first_name': 'name',
+            'email': 'email@email.com',
+            'bio': 'bio',
+            'location': 'location'
+        }
+
+        response = self.client.post(reverse('users:edit_user', kwargs={'user_id': self.user1.pk}), data)
+        self.assertRedirects(response, f'/users/detail/{self.user1.pk}/')
+        self.assertEqual(self.user1.first_name, 'name')
+        self.assertEqual(self.user1.email, 'email@email.com')
+        self.assertEqual(self.user1.profile.bio, 'bio')
+        self.assertEqual(self.user1.profile.location, 'location')
+
+
+class UserDeleteTest(TestCase):
+    pass

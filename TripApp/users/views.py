@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Profile
+from .forms import UserEditForm, ProfileEditForm
 from posts.models import Post
 
 
@@ -60,11 +61,15 @@ def logout(request):
 
 
 @login_required
-def user_detail(request, username):
-    user = get_object_or_404(User, username)
+def user_detail(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
     posts = Post.objects.filter(user=user).order_by('-created')
+    posts_count = user.profile.get_posts_count()
+    user_likes_count = user.profile.get_total_likes_count()
     return render(request, 'users/user_detail.html', {'user': 'user',
-                                                      'posts': 'posts'})
+                                                      'posts': 'posts',
+                                                      'posts_count': 'posts_count',
+                                                      'likes_count': 'likes_count'})
 
 
 @login_required
@@ -85,5 +90,36 @@ def users_list(request):
 
 
 @login_required
-def edit_profile(request):
-    pass
+def edit_profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.user != user:
+        raise PermissionDenied
+    else:
+        if request.method == 'POST':
+            user_form = UserEditForm(data=request.POST, files=request.FILES)
+            profile_form = ProfileEditForm(data=request.POST, files=request.FILES)
+
+            if user_form.is_valid() and profile_form.is_valid():
+                user = user_form.save()
+                profile = profile_form.save()
+                messages.success(request, 'Your account has been updated')
+                return redirect('users:user_detail', username=user.username)
+        else:
+            user_form = UserEditForm(instance=user)
+            profile_form = ProfileEditForm(instance=user.profile)
+
+    return render(request, 'users/edit_profile.html', {'user_form': user_form,
+                                                       'profile_form': profile_form})
+
+
+@login_required
+def delete_profile(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.user != user:
+        raise PermissionDenied
+    else:
+        if request.method == 'POST':
+            user.delete()
+            messages.success(request, 'Your account has been deleted')
+            return redirect('posts:home')
+    return render(request, 'users/confirm_delete_user.html')
