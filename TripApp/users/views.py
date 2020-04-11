@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib import messages
 
 from .models import Profile
+from ..posts.models import Post
 
 
 def register(request):
@@ -59,12 +60,18 @@ def logout(request):
 
 @login_required
 def user_detail(request, username):
-    pass
+    user = get_object_or_404(User, username)
+    posts = Post.objects.filter(user=user)
+    return render(request, 'users/user_detail.html', {'user': 'user',
+                                                      'posts': 'posts'})
+
 
 
 @login_required
 def users_list(request):
-    pass
+    current_user = request.user
+    users = User.objects.all().exclude(user=current_user)
+    return render(request, 'users/users_list.html', {'users': users})
 
 
 @login_required

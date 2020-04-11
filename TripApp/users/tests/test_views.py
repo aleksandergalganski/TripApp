@@ -5,8 +5,6 @@ from ..models import Profile
 
 
 class RegisterTest(TestCase):
-    def setUp(self):
-        pass
 
     def test_register_valid_data(self):
         data = {
@@ -65,3 +63,25 @@ class LoginTest(TestCase):
         invalid_credentials = {'username': 'testuser', 'password': 'wrongpassword'}
         response = self.client.post('/users/login/', invalid_credentials)
         self.assertRedirects(response, '/users/login/')
+
+
+class UsersListTest(TestCase):
+    def setUp(self):
+        pass
+
+    def test_view_url_exits_at_desired_location(self):
+        response = self.client.get('/posts/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('posts:posts_list'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('posts:posts_list'))
+        self.assertTemplateUsed(response, 'posts/posts_list.html')
+
+    def test_pagination_is_five(self):
+        response = self.client.get(reverse('posts:posts_list'))
+        self.assertTrue(len(response.context['posts']) == 5)
+
