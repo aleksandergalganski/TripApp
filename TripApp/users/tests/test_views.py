@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 from ..models import Profile
 
@@ -67,21 +68,27 @@ class LoginTest(TestCase):
 
 class UsersListTest(TestCase):
     def setUp(self):
-        pass
+        User.objects.create_user(username='test', password='testpassword')
+        num_of_users = 8
+
+        for i in range(num_of_users):
+            User.objects.create_user(username=f'user {i}', password='testpassword')
+
+        self.client.login(username='test', password='testpassword')
 
     def test_view_url_exits_at_desired_location(self):
-        response = self.client.get('/posts/')
+        response = self.client.get('/users/list/')
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
-        response = self.client.get(reverse('posts:posts_list'))
+        response = self.client.get(reverse('users:users_list'))
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        response = self.client.get(reverse('posts:posts_list'))
-        self.assertTemplateUsed(response, 'posts/posts_list.html')
+        response = self.client.get(reverse('users:users_list'))
+        self.assertTemplateUsed(response, 'users/users_list.html')
 
     def test_pagination_is_five(self):
-        response = self.client.get(reverse('posts:posts_list'))
-        self.assertTrue(len(response.context['posts']) == 5)
+        response = self.client.get(reverse('users:users_list'))
+        self.assertTrue(len(response.context['users']) == 5)
 

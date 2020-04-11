@@ -4,9 +4,10 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Profile
-from ..posts.models import Post
+from posts.models import Post
 
 
 def register(request):
@@ -66,12 +67,21 @@ def user_detail(request, username):
                                                       'posts': 'posts'})
 
 
-
 @login_required
 def users_list(request):
     current_user = request.user
-    users = User.objects.all().exclude(user=current_user)
-    return render(request, 'users/users_list.html', {'users': users})
+    users_list = User.objects.all().exclude(id=current_user.id)
+    users = None
+    paginator = Paginator(users_list, 5)
+    page = request.GET.get('page')
+
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+    return render(request, 'users/users_list.html', {'page': page, 'users': users})
 
 
 @login_required

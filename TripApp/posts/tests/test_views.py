@@ -9,7 +9,6 @@ from ..models import Post
 class PostsListTest(TestCase):
 
     def setUp(self):
-        self.client = Client()
         self.user = User.objects.create_user(username='test',
                                              password='testpassword')
         number_of_posts = 8
@@ -34,3 +33,7 @@ class PostsListTest(TestCase):
     def test_pagination_is_five(self):
         response = self.client.get(reverse('posts:posts_list'))
         self.assertTrue(len(response.context['posts']) == 5)
+
+
+class PostDetailTest(TestCase):
+    pass
