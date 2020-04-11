@@ -1,9 +1,8 @@
-{% extends "registration_base.html" %}
+{% extends "users/reigstration_base.html" %}
 {% load static %}
-{% blok stylesheet %}
-
+{% block stylesheet %}
+        <link rel="stylesheet" href="{% static "css/register_style.css" %}">
 {% endblock %}
-    <link rel="stylesheet" href="{% static "css/register_style.css" %}">
 {% block title %}Register{% endblock %}
 
 {% block content %}
@@ -13,7 +12,7 @@
                 <i class="fas fa-camera-retro fa-3x"></i>
                 <h1>Sign Up to InstaClon</h1>
             </div>
-            <form action="register" method="post">
+            <form method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="username">Username</label>

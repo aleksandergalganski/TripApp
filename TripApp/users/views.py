@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import User, auth
+from django.contrib.auth import authenticate
 from django.contrib import messages
 
 from .models import Profile
@@ -9,11 +10,11 @@ from .models import Profile
 
 def register(request):
     if request.method == 'POST':
-        first_name = request.POST['firstName']
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        password2 = request.POST['password2']
+        first_name = request.POST.get('firstName', False)
+        username = request.POST.get('username', False)
+        email = request.POST.get('email', False)
+        password = request.POST.get('password',False)
+        password2 = request.POST.get('password2', False)
 
         if password == password2:
             if User.objects.filter(username=username).exists():
@@ -25,20 +26,21 @@ def register(request):
                 user.save()
                 # Create profile for new user
                 Profile.objects.create(user=user)
-                return redirect(request, 'register_done.html')
+                messages.info(request, 'Your account has been created!')
+                return redirect('users:login')
         else:
             messages.info(request, 'Password didnt\'t match')
             return redirect('users:register')
     else:
-        return render(request, 'registration/register.html')
+        return render(request, 'users/registration/register.html')
 
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username', False)
+        password = request.POST.get('password', False)
 
-        user = auth.authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password)
 
         if user is not None:
             auth.login(request, user)
@@ -47,7 +49,7 @@ def login(request):
             messages.info(request, 'invalid credentials')
             return redirect('users:login')
     else:
-        return render(request, 'login.html')
+        return render(request, 'users/registration/login.html')
 
 
 def logout(request):

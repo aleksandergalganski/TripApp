@@ -16,4 +16,4 @@ class ProfileModelTestCase(TestCase):
         self.assertEquals(str(self.profile), 'Profile for user test')
 
     def test_get_absolute_url_method(self):
-        self.assertEquals(self.profile.get_absolute_url(), '/account/users/test')
+        self.assertEquals(self.profile.get_absolute_url(), '/users/detail/test/')

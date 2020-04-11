@@ -1,0 +1,15 @@
+{% extends "users/reigstration_base.html" %}
+{% load static %}
+{% block stylesheet %}
+        <link rel="stylesheet" href="{% static "css/register_done_style.css" %}">
+{% endblock %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div id="loggedout-info">
+            <h1>Your account has been created successfully</h1>
+            <a class="btn" href="../login_form.html">Log-in now</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,9 +1,7 @@
 from django.test import TestCase
-from django.test import Client
 from django.contrib.auth.models import User
-from django.urls import reverse
 
-from ..views import register
+from ..models import Profile
 
 
 class RegisterTest(TestCase):
@@ -11,21 +9,59 @@ class RegisterTest(TestCase):
         pass
 
     def test_register_valid_data(self):
-        pass
+        data = {
+            'username': 'JohnTheUser',
+            'firstName': 'John',
+            'email': 'test@email.com',
+            'password': 'validpass',
+            'password2': 'validpass'
+        }
+        self.client.post('/users/register/', data)
+        users_count = User.objects.count()
+        profiles_count = Profile.objects.count()
+        self.assertEqual(users_count, 1)
+        self.assertEqual(profiles_count, 1)
 
     def test_register_wrong_passwords(self):
-        pass
+        data = {
+            'username': 'JohnTheUser',
+            'firstName': 'John',
+            'email': 'test@email.com',
+            'password': 'validpass',
+            'password2': 'validpass12'
+        }
+        self.client.post('/users/register/', data)
+        users_count = User.objects.count()
+        profiles_count = Profile.objects.count()
+        self.assertEqual(users_count, 0)
+        self.assertEqual(profiles_count, 0)
 
     def test_register_existed_username(self):
-        pass
+        User.objects.create_user(username='user', password='password')
+        data = {
+            'username': 'user',
+            'firstName': 'John',
+            'email': 'test@email.com',
+            'password': 'validpass',
+            'password2': 'validpass'
+        }
+        self.client.post('/users/register/', data)
+        users_count = User.objects.count()
+        profiles_count = Profile.objects.count()
+        self.assertEqual(users_count, 1)
+        self.assertEqual(profiles_count, 0)
 
 
 class LoginTest(TestCase):
     def setUp(self):
-        pass
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
 
     def test_valid_credentials(self):
-        pass
+        credentials = {'username': 'testuser', 'password': 'testpassword'}
+        response = self.client.post('/users/login/', credentials)
+        self.assertRedirects(response, '/posts/')
 
     def test_invalid_credentials(self):
-        pass
+        invalid_credentials = {'username': 'testuser', 'password': 'wrongpassword'}
+        response = self.client.post('/users/login/', invalid_credentials)
+        self.assertRedirects(response, '/users/login/')
