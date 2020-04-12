@@ -130,7 +130,7 @@ class UserEditTest(TestCase):
         response = self.client.get(reverse('users:edit_user', kwargs={'user_id': self.user1.pk}))
         self.assertEqual(response.status_code, 403)
 
-    def test_post_data(self):
+    def test_edit_profile(self):
         self.client.login(username='user1', password='user1')
         data = {
             'first_name': 'name',
@@ -150,4 +150,33 @@ class UserEditTest(TestCase):
 
 
 class UserDeleteTest(TestCase):
-    pass
+    def setUp(self):
+        self.user = User.objects.create_user(username='userdel', password='password')
+        self.profile = Profile.objects.create(user=self.user)
+
+    def test_authorized_user(self):
+        self.client.login(username='userdel', password='password')
+        response = self.client.get(reverse('users:delete_user', args=[self.user.pk]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_unauthorized_user(self):
+        user2 = User.objects.create_user(username='user2', password='password')
+        self.client.login(username='user2', password='password')
+        response = self.client.get(reverse('users:delete_user', args=[self.user.pk]))
+        self.assertEqual(response.status_code, 403)
+
+    def test_delete_user(self):
+        users_count = User.objects.count()
+        profiles_count = Profile.objects.count()
+
+        self.client.login(username='userdel', password='password')
+        response = self.client.post(reverse('users:delete_user', args=[self.user.pk]))
+
+        self.assertRedirects(response, reverse('posts:home'))
+        new_users_count = User.objects.count()
+        new_profiles_count = Profile.objects.count()
+        self.assertEqual(users_count - 1, new_users_count)
+        self.assertEqual(profiles_count - 1, new_profiles_count)
+
+
+
