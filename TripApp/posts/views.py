@@ -1,4 +1,5 @@
 from .models import Post, Comment
+from .forms import CommentForm, PostForm
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -49,7 +50,14 @@ def post_detail(request, post_id):
                                                       'new_comment': new_comment})
 
 
+@login_required
+def update_post(request):
+    pass
 
+
+@login_required
+def delete_post(request):
+    pass
 
 
 
