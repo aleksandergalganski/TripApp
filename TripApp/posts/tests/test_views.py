@@ -110,6 +110,30 @@ class CreatePostTest(TestCase):
         response = self.client.get(reverse('posts:create_post'))
         self.assertTemplateUsed(response, 'posts/post_create.html')
 
+    @staticmethod
+    def make_tags_list(tags_names):
+        tags_list = [tag for tag in tags_names]
+        return tags_list
+
+    def test_create_post(self):
+        posts_count = Post.objects.all().count()
+        self.client.login(username='testuser', password='password')
+        data = {
+            'name': 'Post',
+            'about': 'About post',
+            'tags': 'tag1 tag2 tag3',
+            'location': 'location'
+        }
+        self.client.post('/posts/create/', data)
+        new_posts_count = Post.objects.all().count()
+        self.assertEqual(new_posts_count, posts_count + 1)
+        last_post = Post.objects.order_by('-created')[0]
+        self.assertEqual(last_post.name, 'Post')
+        self.assertEqual(last_post.about, 'About post')
+        tags_list = self.make_tags_list(last_post.tags.names())
+        self.assertListEqual(sorted(tags_list), sorted(['tag1', 'tag2', 'tag3']))
+        self.assertEqual(last_post.location, 'location')
+
 
 class UpdatePostTest(TestCase):
     def setUp(self):
