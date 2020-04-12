@@ -64,7 +64,7 @@ def create_post(request):
             return redirect(new_post.get_absolute_url())
     else:
         post_form = PostForm()
-    return render(request, 'posts/create_post.html', {'post_form': post_form})
+    return render(request, 'posts/post_create.html', {'post_form': post_form})
 
 
 @login_required
@@ -84,7 +84,7 @@ def update_post(request, post_id):
         else:
             post_form = PostForm(instance=post)
 
-        return render(request, 'posts/create_post.html', {'post_form': post_form})
+        return render(request, 'posts/post_update.html', {'post_form': post_form})
 
 
 @login_required
@@ -97,6 +97,6 @@ def delete_post(request, post_id):
             post.delete()
             messages.success(request, 'Your post has been deleted')
             return redirect('post:posts_list')
-        return render(request, 'posts/confirm_delete_post.html', {'post': post})
+        return render(request, 'posts/post_delete_confirm.html', {'post': post})
 
 

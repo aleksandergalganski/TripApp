@@ -84,3 +84,83 @@ class PostDetailTest(TestCase):
         self.assertEqual(new_comment_count, comments_count + 1)
         last_comment = Comment.objects.filter(post=self.post).order_by('-created')[0]
         self.assertEqual(last_comment.body, 'test_comment')
+
+
+class CreatePostTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/posts/create/')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/users/login/?next=/posts/create/')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get('/posts/create/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:create_post'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:create_post'))
+        self.assertTemplateUsed(response, 'posts/post_create.html')
+
+
+class UpdatePostTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+        self.post = Post.objects.create(name='post', user=self.user, about='...',
+                                        location='test location')
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/posts/1/update/')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/users/login/?next=/posts/1/update/')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(f'/posts/{self.post.pk}/update/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:update_post', args=[self.post.pk]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:update_post', args=[self.post.pk]))
+        self.assertTemplateUsed(response, 'posts/post_update.html')
+
+
+class DeletePostTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+        self.post = Post.objects.create(name='post', user=self.user, about='...',
+                                        location='test location')
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/posts/1/delete/')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/users/login/?next=/posts/1/delete/')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(f'/posts/{self.post.pk}/delete/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:delete_post', args=[self.post.pk]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:delete_post', args=[self.post.pk]))
+        self.assertTemplateUsed(response, 'posts/post_delete_confirm.html')
+
