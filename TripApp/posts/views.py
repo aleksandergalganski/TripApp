@@ -51,13 +51,52 @@ def post_detail(request, post_id):
 
 
 @login_required
-def update_post(request):
-    pass
+def create_post(request):
+    if request.method == 'POST':
+        post_form = PostForm(data=request.POST, files=request.FILES)
+        if post_form.is_valid():
+            new_post = post_form.save(commit=False)
+            new_post.user = request.user
+            new_post.save()
+            # saving tags
+            post_form.save_m2m()
+            messages.success(request, 'New post successfully created')
+            return redirect(new_post.get_absolute_url())
+    else:
+        post_form = PostForm()
+    return render(request, 'posts/create_post.html', {'post_form': post_form})
 
 
 @login_required
-def delete_post(request):
-    pass
+def update_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.user != post.user:
+        raise PermissionDenied
+    else:
+        if request.method == 'POST':
+            post_form = PostForm(data=request.POST, files=request.FILES,
+                                 instance=post)
+            if post_form.is_valid():
+                post_form.save()
+                post_form.save_m2m()
+                messages.success(request, 'Your post has been updated')
+                return redirect(post.get_absolute_url())
+        else:
+            post_form = PostForm(instance=post)
 
+        return render(request, 'posts/create_post.html', {'post_form': post_form})
+
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.user != post.user:
+        raise PermissionDenied
+    else:
+        if request.method == 'POST':
+            post.delete()
+            messages.success(request, 'Your post has been deleted')
+            return redirect('post:posts_list')
+        return render(request, 'posts/confirm_delete_post.html', {'post': post})
 
 
