@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import User, auth
@@ -92,18 +92,26 @@ def users_list(request):
 @login_required
 def edit_profile(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+    profile = get_object_or_404(Profile, user=user)
     if request.user != user:
         raise PermissionDenied
     else:
         if request.method == 'POST':
-            user_form = UserEditForm(data=request.POST, files=request.FILES)
-            profile_form = ProfileEditForm(data=request.POST, files=request.FILES)
+            user_form = UserEditForm(data=request.POST, files=request.FILES, instance=user)
+            profile_form = ProfileEditForm(data=request.POST, files=request.FILES, instance=user.profile)
 
             if user_form.is_valid() and profile_form.is_valid():
-                user = user_form.save()
-                profile = profile_form.save()
+                user.first_name = user_form.cleaned_data.get('first_name', False)
+                user.email = user_form.cleaned_data.get('email', False)
+                profile.bio = profile_form.cleaned_data.get('bio', False)
+                profile.location = profile_form.cleaned_data.get('location', False)
+                profile.image = profile_form.cleaned_data.get('image', False)
+
+                user.save()
+                profile.save()
+
                 messages.success(request, 'Your account has been updated')
-                return redirect('users:user_detail', username=user.username)
+                return redirect(reverse('users:user_detail', kwargs={'user_id': user_id}))
         else:
             user_form = UserEditForm(instance=user)
             profile_form = ProfileEditForm(instance=user.profile)

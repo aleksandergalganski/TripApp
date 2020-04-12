@@ -97,6 +97,8 @@ class UsersListTest(TestCase):
 class UserDetailTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='test', password='password')
+        self.profile = Profile.objects.create(user=self.user)
+        self.client.login(username='test', password='password')
 
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get(f'/users/detail/{self.user.pk}/')
@@ -136,13 +138,15 @@ class UserEditTest(TestCase):
             'bio': 'bio',
             'location': 'location'
         }
+        user_id = self.user1.pk
+        response = self.client.post(reverse('users:edit_user', args=[user_id]), data)
+        user = User.objects.get(pk=user_id)
 
-        response = self.client.post(reverse('users:edit_user', kwargs={'user_id': self.user1.pk}), data)
-        self.assertRedirects(response, f'/users/detail/{self.user1.pk}/')
-        self.assertEqual(self.user1.first_name, 'name')
-        self.assertEqual(self.user1.email, 'email@email.com')
-        self.assertEqual(self.user1.profile.bio, 'bio')
-        self.assertEqual(self.user1.profile.location, 'location')
+        self.assertRedirects(response, reverse('users:user_detail', args=[user_id]))
+        self.assertEqual(user.first_name, 'name')
+        self.assertEqual(user.email, 'email@email.com')
+        self.assertEqual(user.profile.bio, 'bio')
+        self.assertEqual(user.profile.location, 'location')
 
 
 class UserDeleteTest(TestCase):
