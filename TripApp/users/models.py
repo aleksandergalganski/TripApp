@@ -15,7 +15,7 @@ class Profile(models.Model):
         return f'Profile for user {self.user.username}'
 
     def get_absolute_url(self):
-        return reverse('users:user_detail', args=[self.user.username])
+        return reverse('users:user_detail', args=[self.user.pk])
 
     def get_posts_count(self):
         return self.user.posts.all().count()

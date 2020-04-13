@@ -75,7 +75,7 @@ def user_detail(request, user_id):
 @login_required
 def users_list(request):
     current_user = request.user
-    users_list = User.objects.all().exclude(id=current_user.id)
+    users_list = User.objects.all().exclude(id=current_user.id).order_by('-date_joined')
     users = None
     paginator = Paginator(users_list, 5)
     page = request.GET.get('page')

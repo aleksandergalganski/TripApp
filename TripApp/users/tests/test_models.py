@@ -17,7 +17,7 @@ class ProfileModelTestCase(TestCase):
         self.assertEquals(str(self.profile), 'Profile for user test')
 
     def test_get_absolute_url_method(self):
-        self.assertEquals(self.profile.get_absolute_url(), '/users/detail/test/')
+        self.assertEquals(self.profile.get_absolute_url(), f'/users/detail/{self.user.pk}/')
 
     def test_get_posts_count(self):
         posts_count = 2
