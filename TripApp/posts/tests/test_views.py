@@ -325,3 +325,108 @@ class PostLikeTest(TestCase):
         self.post.refresh_from_db()
         self.assertEqual(self.post.get_likes_count, 4)
         self.assertRedirects(response, self.post.get_absolute_url())
+
+
+class UpdateCommentTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+        self.post = Post.objects.create(name='post', user=self.user, about='...',
+                                        location='test location')
+        self.comment = Comment.objects.create(post=self.post, user=self.user, body='comment body')
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/posts/comments/1/update/')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/users/login/?next=/posts/comments/1/update/')
+
+    def test_unauthorized_user(self):
+        User.objects.create_user(username='baduser', password='pass')
+        self.client.login(username='baduser', password='pass')
+        response = self.client.get('/posts/comments/1/update/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get('/posts/comments/1/update/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:update_comment', args=[self.comment.pk]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:update_comment', args=[self.comment.pk]))
+        self.assertTemplateUsed(response, 'posts/comment_update.html')
+
+    def test_update_comment(self):
+        self.client.login(username='testuser', password='password')
+        data = {'body': 'updated body'}
+        response = self.client.post(reverse('posts:update_comment', args=[self.comment.pk]), data)
+        self.comment.refresh_from_db()
+        self.assertEqual(self.comment.body, 'updated body')
+        self.assertRedirects(response, reverse('posts:post_detail', args=[self.post.pk]))
+
+
+class DeleteCommentTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+        self.post = Post.objects.create(name='post', user=self.user, about='...',
+                                        location='test location')
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/posts/1/update/')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/users/login/?next=/posts/1/update/')
+
+    def test_unauthorized_user(self):
+        User.objects.create_user(username='baduser', password='pass')
+        self.client.login(username='baduser', password='pass')
+        response = self.client.get(f'/posts/{self.post.pk}/update/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(f'/posts/{self.post.pk}/update/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:update_post', args=[self.post.pk]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:update_post', args=[self.post.pk]))
+        self.assertTemplateUsed(response, 'posts/post_update.html')
+
+    def test_update_one_value(self):
+        self.client.login(username='testuser', password='password')
+        data = {
+            'name': self.post.name,
+            'about': 'updated about',
+            'tags': 'tag1 tag2',
+            'location': self.post.location
+        }
+        response = self.client.post(reverse('posts:update_post', args=[self.post.pk]), data)
+        self.post.refresh_from_db()
+        self.assertEqual(self.post.about, 'updated about')
+        self.assertRedirects(response, self.post.get_absolute_url())
+
+    def test_update_all_values(self):
+        self.client.login(username='testuser', password='password')
+        data = {
+            'name': 'updated name',
+            'about': 'updated about',
+            'tags': 'tag4 tag5 tag6',
+            'location': 'updated location'
+        }
+        response = self.client.post(reverse('posts:update_post', args=[self.post.pk]), data)
+        self.post.refresh_from_db()
+        self.assertRedirects(response, self.post.get_absolute_url())
+        self.assertEqual(self.post.name, 'updated name')
+        self.assertEqual(self.post.about, 'updated about')
+        self.assertListEqual(sorted(list(self.post.tags.names())), sorted(['tag4', 'tag5', 'tag6']))
+        self.assertEqual(self.post.location, 'updated location')
+

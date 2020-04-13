@@ -1,7 +1,7 @@
 from .models import Post, Comment
 from .forms import CommentForm, PostForm
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -120,3 +120,34 @@ def post_like(request, post_id):
     else:
         post.likes.add(user)
     return redirect(post.get_absolute_url())
+
+
+@login_required
+def update_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user != comment.user:
+        raise PermissionDenied
+    else:
+        if request.method == 'POST':
+            comment_form = CommentForm(data=request.POST, instance=comment)
+            if comment_form.is_valid():
+                comment_form.save()
+                messages.success(request, 'Your comment has been updated')
+                return redirect(reverse('posts:post_detail', args=[comment.post.pk]))
+        else:
+            comment_form = CommentForm(instance=comment)
+        return render(request, 'posts/comment_update.html', {'comment_form': comment_form})
+
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user != comment.user:
+        raise PermissionDenied
+    else:
+        if request.method == 'POST':
+            comment.delete()
+            messages.success(request, 'Your comment has been deleted')
+            return redirect(reverse('posts:post_detail', args=[comment.post.pk]))
+        return render(request, 'comment_delete_confirm.html', {})
+
