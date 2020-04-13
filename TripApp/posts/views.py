@@ -109,3 +109,14 @@ def tagged_posts(request, slug):
     posts = Post.objects.filter(tags__in=[tag])
 
     return render(request, 'posts/posts_list.html', {'posts': posts, 'tag': tag})
+
+
+@login_required
+def post_like(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    user = request.user
+    if user in post.likes.all():
+        post.likes.remove(user)
+    else:
+        post.likes.add(user)
+    return redirect(post.get_absolute_url())

@@ -38,7 +38,7 @@ class Post(models.Model):
         return reverse('posts:post_like', args=[self.pk])
 
     def get_absolute_url(self):
-        return reverse('posts:post_detail', args=[self.id])
+        return reverse('posts:post_detail', args=[self.pk])
 
     @property
     def get_likes_count(self):

@@ -296,3 +296,32 @@ class TaggedPostsTest(TestCase):
         self.assertEqual(len(response.context['posts']), 4)
         response = self.client.get(reverse('posts:tagged_posts', args=['black']))
         self.assertEqual(len(response.context['posts']), 1)
+
+
+class PostLikeTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+        self.post = Post.objects.create(name='Post', user=self.user, about='...',
+                                        location='Test Location')
+
+    def make_likes(self, count):
+        for i in range(count):
+            User.objects.create_user(username=f'user{i}', password='password')
+            self.client.login(username=f'user{i}', password='password')
+            self.client.get(f'/like/{self.post.pk}/')
+            self.client.logout()
+
+    def test_post_like(self):
+        likes_count = self.post.get_likes_count
+        self.make_likes(5)
+        self.post.refresh_from_db()
+        new_likes_count = self.post.get_likes_count
+        self.assertEqual(new_likes_count, likes_count + 5)
+
+    def test_post_unlike(self):
+        self.make_likes(5)
+        self.client.login(username='user1', password='password')
+        response = self.client.get(f'/like/{self.post.pk}/')
+        self.post.refresh_from_db()
+        self.assertEqual(self.post.get_likes_count, 4)
+        self.assertRedirects(response, self.post.get_absolute_url())
