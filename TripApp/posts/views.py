@@ -78,7 +78,6 @@ def update_post(request, post_id):
                                  instance=post)
             if post_form.is_valid():
                 post_form.save()
-                post_form.save_m2m()
                 messages.success(request, 'Your post has been updated')
                 return redirect(post.get_absolute_url())
         else:
