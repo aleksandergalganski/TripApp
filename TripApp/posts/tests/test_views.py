@@ -409,3 +409,11 @@ class DeleteCommentTest(TestCase):
         new_comments_count = Comment.objects.filter(post=self.post).count()
         self.assertEqual(new_comments_count, comments_count - 1)
         self.assertRedirects(response, reverse('posts:post_detail', args=[self.post.pk]))
+
+
+class TestPopularTags(TestCase):
+    pass
+
+
+class TestPopularLocations(TestCase):
+    pass

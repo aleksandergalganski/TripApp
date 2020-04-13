@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
+from django.db.models import Count
 
 from taggit.models import Tag
 
@@ -151,3 +152,14 @@ def delete_comment(request, comment_id):
             return redirect(reverse('posts:post_detail', args=[comment.post.pk]))
         return render(request, 'posts/comment_delete_confirm.html', {})
 
+
+@login_required
+def popular_tag_list(request):
+    tags = Post.tags.most_common()[:10]
+    return render(request, 'posts/popular_tag_list.html', {'tags': tags})
+
+
+@login_required
+def popular_location_list(request):
+    locations = Post.objects.values('location').annotate(my_count=Count('location')).order_by('my_count')[:10]
+    return render(request, 'posts/popular_location_list.html', {'locations': locations})

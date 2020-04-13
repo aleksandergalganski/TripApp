@@ -29,10 +29,10 @@ def register(request):
                 user.save()
                 # Create profile for new user
                 Profile.objects.create(user=user)
-                messages.info(request, 'Your account has been created!')
+                messages.success(request, 'Your account has been created!')
                 return redirect('users:login')
         else:
-            messages.info(request, 'Password didnt\'t match')
+            messages.info(request, 'Password didn\'t match')
             return redirect('users:register')
     else:
         return render(request, 'users/registration/register.html')
@@ -49,7 +49,7 @@ def login(request):
             auth.login(request, user)
             return redirect('posts:posts_list')
         else:
-            messages.info(request, 'invalid credentials')
+            messages.info(request, 'Invalid credentials')
             return redirect('users:login')
     else:
         return render(request, 'users/registration/login.html')

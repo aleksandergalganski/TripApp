@@ -15,7 +15,7 @@ a {
 }
 
 .container {
-    margin: 30px auto;
+    margin: 20px auto;
     max-width: 400px;
     padding: 20px;
 }
@@ -61,6 +61,7 @@ a {
     margin-right: 10px;
 }
 
+/* Form */
 
 #form-header {
     text-align: center;
@@ -119,6 +120,20 @@ a {
 
 .btn:hover {
     background: #073834;
+}
+
+/* Messages */
+
+.container .success-message {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #04302c;
+    margin-bottom: 1rem;
+}
+
+#form-wrapper .messages p {
+    text-align: center;
+    color: #cc0000;
 }
 
 .container #bottom-text {

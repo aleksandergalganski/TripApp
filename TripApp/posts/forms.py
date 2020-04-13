@@ -8,6 +8,11 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('name', 'about', 'image', 'tags', 'location')
 
+    def clean_location(self):
+        location = self.cleaned_data['location']
+        location = location.strip().title()
+        return location
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
