@@ -245,6 +245,54 @@ class DeletePostTest(TestCase):
                                    body='...')
 
         comments_count = Comment.objects.all().count()
-        response = self.client.post(reverse('posts:delete_post', args=[self.post.pk]))
+        self.client.post(reverse('posts:delete_post', args=[self.post.pk]))
         new_comments_count = Post.objects.all().count()
         self.assertEqual(new_comments_count, comments_count - 3)
+
+
+class TaggedPostsTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+        self.client.login(username='testuser', password='password')
+        data = {
+            'name': 'post',
+            'about': '...',
+            'tags': 'red yellow',
+            'location': 'test location'
+        }
+        num_of_posts = 4
+        for i in range(num_of_posts):
+            self.client.post('/posts/create/', data)
+
+        data['tags'] = 'black'
+        self.client.post('/posts/create/', data)
+
+    def test_redirect_if_not_logged_in(self):
+        self.client.logout()
+        response = self.client.get('/posts/tags/red/')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/users/login/?next=/posts/tags/red/')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get('/posts/tags/red/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:tagged_posts', args=['red']))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:tagged_posts', args=['red']))
+        self.assertTemplateUsed(response, 'posts/posts_list.html')
+
+    def test_correct_posts_count(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:tagged_posts', args=['red']))
+        self.assertEqual(len(response.context['posts']), 4)
+        response = self.client.get(reverse('posts:tagged_posts', args=['yellow']))
+        self.assertEqual(len(response.context['posts']), 4)
+        response = self.client.get(reverse('posts:tagged_posts', args=['black']))
+        self.assertEqual(len(response.context['posts']), 1)

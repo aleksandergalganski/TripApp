@@ -7,6 +7,8 @@ from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 
+from taggit.models import Tag
+
 
 def home(request):
     return render(request, 'posts/home.html', {})
@@ -18,6 +20,7 @@ def posts_list(request):
     paginator = Paginator(posts_list, 5)
     page = request.GET.get('page')
     posts = None
+    common_tags = Post.tags.most_common()[:4]
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -25,7 +28,8 @@ def posts_list(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    return render(request, 'posts/posts_list.html', {'page': page, 'posts': posts})
+    return render(request, 'posts/posts_list.html', {'page': page, 'posts': posts,
+                                                     'common_tags': common_tags})
 
 
 @login_required
@@ -99,3 +103,9 @@ def delete_post(request, post_id):
         return render(request, 'posts/post_delete_confirm.html', {'post': post})
 
 
+@login_required
+def tagged_posts(request, slug):
+    tag = get_object_or_404(Tag, slug=slug)
+    posts = Post.objects.filter(tags__in=[tag])
+
+    return render(request, 'posts/posts_list.html', {'posts': posts, 'tag': tag})
