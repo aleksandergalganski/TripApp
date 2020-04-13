@@ -149,5 +149,5 @@ def delete_comment(request, comment_id):
             comment.delete()
             messages.success(request, 'Your comment has been deleted')
             return redirect(reverse('posts:post_detail', args=[comment.post.pk]))
-        return render(request, 'comment_delete_confirm.html', {})
+        return render(request, 'posts/comment_delete_confirm.html', {})
 
