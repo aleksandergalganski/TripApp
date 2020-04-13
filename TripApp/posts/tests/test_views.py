@@ -211,7 +211,7 @@ class DeletePostTest(TestCase):
     def test_unauthorized_user(self):
         User.objects.create_user(username='baduser', password='pass')
         self.client.login(username='baduser', password='pass')
-        response = self.client.get(f'posts/{self.post.pk}/delete/')
+        response = self.client.get(f'/posts/{self.post.pk}/delete/')
         self.assertEqual(response.status_code, 403)
 
     def test_view_url_exists_at_desired_location(self):
@@ -229,3 +229,22 @@ class DeletePostTest(TestCase):
         response = self.client.get(reverse('posts:delete_post', args=[self.post.pk]))
         self.assertTemplateUsed(response, 'posts/post_delete_confirm.html')
 
+    def test_delete_post(self):
+        self.client.login(username='testuser', password='password')
+        posts_count = Post.objects.all().count()
+        response = self.client.post(reverse('posts:delete_post', args=[self.post.pk]))
+        new_posts_count = Post.objects.all().count()
+        self.assertRedirects(response, reverse('posts:posts_list'))
+        self.assertEqual(new_posts_count, posts_count - 1)
+
+    def test_delete_post_comments(self):
+        self.client.login(username='testuser', password='password')
+        num_of_comments = 3
+        for i in range(num_of_comments):
+            Comment.objects.create(post=self.post, user=self.user,
+                                   body='...')
+
+        comments_count = Comment.objects.all().count()
+        response = self.client.post(reverse('posts:delete_post', args=[self.post.pk]))
+        new_comments_count = Post.objects.all().count()
+        self.assertEqual(new_comments_count, comments_count - 3)

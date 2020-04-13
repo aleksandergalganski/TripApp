@@ -95,7 +95,7 @@ def delete_post(request, post_id):
         if request.method == 'POST':
             post.delete()
             messages.success(request, 'Your post has been deleted')
-            return redirect('post:posts_list')
+            return redirect('posts:posts_list')
         return render(request, 'posts/post_delete_confirm.html', {'post': post})
 
 
