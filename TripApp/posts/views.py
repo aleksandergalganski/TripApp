@@ -19,7 +19,7 @@ def home(request):
 
 @login_required
 def posts_list(request):
-    posts_list = Post.actives.order_by('-created')
+    posts_list = Post.actives.order_by('created')
     paginator = Paginator(posts_list, 5)
     page = request.GET.get('page')
     posts = None
@@ -109,9 +109,19 @@ def delete_post(request, post_id):
 @login_required
 def tagged_posts(request, slug):
     tag = get_object_or_404(Tag, slug=slug)
-    posts = Post.objects.filter(tags__in=[tag])
+    posts_list = Post.objects.filter(tags__in=[tag]).order_by('-created')
+    paginator = Paginator(posts_list, 5)
+    page = request.GET.get('page')
+    posts = None
 
-    return render(request, 'posts/posts_list.html', {'posts': posts, 'tag': tag})
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    return render(request, 'posts/posts_list.html', {'posts': posts, 'page': page, 'tag': tag})
 
 
 @login_required
