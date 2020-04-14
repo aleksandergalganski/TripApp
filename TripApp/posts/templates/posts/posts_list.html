@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "posts/base.html" %}
 {% load static %}
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static "css/post_list_style.css" %}">
@@ -13,15 +13,15 @@
                 <div class="post">
                     <div class="post-info">
                         <div class="user-info">
-                            <img src="{{ post.user.profile.image.url }}" alt="user-image" width="60" height="60">
+{#                            <img src="{{ post.user.profile.image.url }}" alt="user-image" width="60" height="60">#}
                             <h2>{{ posts.user.username}}</h2>
                         </div>
                         <h2>{{ post.name }}</h2>
                         <h5>{{ post.location }}</h5>
-                        <h5>{{ post.created|date:"%d %B %Y" }}</h5>
+{#                        <h5>{{ post.created|date:"%d %B %Y" }}</h5>#}
                         <p>{{ pos.about }}</p>
                     </div>
-                    <img id="post-image" src="{{ post.image.url }}" alt="image">
+{#                    <img id="post-image" src="{{ post.image.url }}" alt="image">#}
                     <div class="post-info">
                         <span class="likes"><h5><span class="likes-number">{{ post.get_likes_count }}</span> Like
                         {{ post.get_likes_count|pluralize }}</h5></span>
@@ -47,19 +47,7 @@
                 </div>
         {% endfor %}
         <section id="paginator">
-            <div class="pagination">
-                <span class="step-links">
-                    {% if page.has_previous %}
-                        <a href="?page={{ page.previous_page_number }}">Previous</a>
-                    {% endif %}
-                <span class="current">
-                    Page {{ page.number }} of {{ page.paginator.num_pages }}.
-                </span>
-                {% if pages.has_next %}
-                    <a href="?page={{ page.next_page_number }}">Next</a>
-                {% endif %}
-                </span>
-            </div>
+        	{% include "posts/pagination.html" with page=posts %}
         </section>
     </section>
 

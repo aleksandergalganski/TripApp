@@ -9,7 +9,7 @@
     {% endblock %}
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/9fada548c3.js" crossorigin="anonymous"></script>
-    <title>{% block title %}</title>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
     <nav id="navbar">
@@ -18,9 +18,9 @@
         </h1>
         <ul>
             <li><a class="current">Posts</a></li>
-            <li><a href="./people.html">People</a></li>
-            <li><a href="./taggs.html">Taggs</a></li>
-            <li><a href="./places.html">Places</a></li>
+            <li><a href="#">People</a></li>
+            <li><a href="#">Taggs</a></li>
+            <li><a href="#">Places</a></li>
             <li><a>Create Post</a></li>
             <li><a>My Posts</a></li>
             <li><a>Profile</a></li>
