@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/post_list_style.css' %}">
+    {% block stylesheet %}
+    {% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9fada548c3.js" crossorigin="anonymous"></script>
+    <title>{% block title %}</title>
+</head>
+<body>
+    <nav id="navbar">
+        <h1 class="logo">
+            <a href="./home.html"><i class="fas fa-camera-retro fa-2x"></i><span class="logo-text">Trip</span>App</a>
+        </h1>
+        <ul>
+            <li><a class="current">Posts</a></li>
+            <li><a href="./people.html">People</a></li>
+            <li><a href="./taggs.html">Taggs</a></li>
+            <li><a href="./places.html">Places</a></li>
+            <li><a>Create Post</a></li>
+            <li><a>My Posts</a></li>
+            <li><a>Profile</a></li>
+            <li><a href="#"><i class="fas fa-sign-out-alt fa-1x"></i>Logout</a></li>
+        </ul>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer>
+        <p>TripApp &copy; 2020, All Rights Reserved</p>
+    </footer>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>

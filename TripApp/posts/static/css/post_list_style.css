@@ -1,0 +1,175 @@
+:root{
+    --navbar-background-color: #71c9c1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.8;
+    background: #a0dbd6;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 2rem;
+    overflow: hidden;
+}
+
+.btn {
+    display: inline-block;
+    background: #71c9c1;
+    color: #04302c;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+    border: 0;
+    border-radius: 20px;
+}
+
+.btn:hover {
+    background: #0b635b;
+}
+
+
+/* Navbar */
+#navbar {
+    display: flex;
+    position: sticky;
+    background: var(--navbar-background-color);
+    top: 0;
+    padding: 1rem;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+#navbar i,
+#navbar a{
+    color: #04302c;
+}
+
+#navbar i {
+    margin-right: 5px;
+}
+
+#navbar ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+
+}
+
+#navbar ul li a {
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 1.25rem;
+    margin-right: 0.5rem;
+}
+
+#navbar ul li a:hover,
+#navbar ul li a.current {
+    background: #caebe8;
+}
+
+/* Section: posts */
+
+#posts {
+    padding: 1rem;
+    margin: 1rem;
+}
+
+#posts .post {
+    border-radius: 5px;
+    background: #b8e4e0;
+    margin-bottom: 2rem;
+}
+
+#posts .post .post-info {
+    padding: 0.5rem 1.5rem;
+
+}
+#posts .post .user-info img {
+    border-radius: 100%;
+}
+
+#posts .post .user-info {
+    display: flex;
+    align-items: center;
+}
+
+#posts .post .user-info h2 {
+    margin: 0 1rem;
+}
+
+#post-image {
+    width: 100%;
+    height: 100%;
+}
+
+/* Likes */
+.likes {
+    font-size: 1.5rem;
+}
+
+.likes .likes-number {
+    font-size: 2rem;
+}
+
+
+/* Taggs */
+#posts .post .taggs {
+    padding: 1rem 0;
+}
+
+#posts .post .taggs ul li  {
+    display: inline-block;
+}
+
+#posts .post .taggs ul li a{
+    background: var(--navbar-background-color);
+    padding: 0.5rem;
+    border-radius: 10px;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+#posts .post .taggs ul li a:hover{
+    box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.3);;
+}
+
+/* Comments */
+.comments {
+    padding: 1rem 0;
+}
+
+.comments .comment {
+    padding: 0.5rem 0;
+    color: #04302c;
+}
+
+.comments .comment a {
+    font-size: 1.25rem;
+    color: #04302c;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #04302c;
+    background: #71c9c1;
+}
