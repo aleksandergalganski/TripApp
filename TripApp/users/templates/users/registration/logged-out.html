@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/9fada548c3.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/login_style.css" %}">
+    <link rel="stylesheet" href="{% static "css/logout_style.css" %}">
+    <title>Logout</title>
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <div class="header-container">
+                <h1 class="logo"><a href="{% url "posts:home" %}"><i class="fas fa-camera-retro fa-2x"></i><span class="logo-text">Trip</span>App</a></h1>
+                <ul>
+                    <li><a href="{% url "users:login" %}"><i class="fas fa-sign-in-alt fa-2x"></i>Sign In</a></li>
+                    <li><a href="{% url "users:register" %}"><i class="fas fa-user-plus fa-2x"></i>Sign Up</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <div id="loggedout-info">
+            <h1>You have been successfully logged out</h1>
+            <a class="btn" href="{% url "users:login" %}">Log-in again</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>InstaClon &copy; 2020, All Rights Reserved</p>
+    </footer>
+
+</body>
+</html>

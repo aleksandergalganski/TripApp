@@ -11,7 +11,9 @@ urlpatterns = [
     path('posts/<int:post_id>/update/', views.update_post, name='update_post'),
     path('posts/<int:post_id>/delete/', views.delete_post, name='delete_post'),
     path('posts/tags/<slug:slug>/', views.tagged_posts, name='tagged_posts'),
+    path('posts/tags/', views.popular_tag_list, name='tag_list'),
     path('like/<int:post_id>/', views.post_like, name='post_like'),
     path('posts/comments/<int:comment_id>/update/', views.update_comment, name='update_comment'),
     path('posts/comments/<int:comment_id>/delete/', views.delete_comment, name='delete_comment'),
+    path('posts/locations/', views.popular_location_list, name='location_list'),
 ]

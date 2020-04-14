@@ -16,7 +16,6 @@ body {
 
 a {
     text-decoration: none;
-    color: #0b635b;
 }
 
 ul {
@@ -34,10 +33,11 @@ ul {
     display: inline-block;
     background: #71c9c1;
     color: #04302c;
-    font-size: 1rem;
-    padding: 0.75rem 2rem;
+    font-size: 18px;
+    padding: 0.5rem 1rem;
     border: 0;
     border-radius: 20px;
+    cursor: pointer;
 }
 
 .btn:hover {
@@ -85,33 +85,53 @@ ul {
     background: #caebe8;
 }
 
+/* Smartphones */
+/* @media(max-width: 500px) {
+    #navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #navbar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #navbar ul li {
+        padding: 0.5rem;
+        margin: 0.5rem 0;
+        border-bottom: 1px dotted #444;
+    }
+
+} */
+
 /* Section: posts */
 
-#posts {
+#post {
     padding: 1rem;
     margin: 1rem;
 }
 
-#posts .post {
+#post .post {
     border-radius: 5px;
     background: #b8e4e0;
     margin-bottom: 2rem;
 }
 
-#posts .post .post-info {
+#post .post .post-info {
     padding: 0.5rem 1.5rem;
 
 }
-#posts .post .user-info img {
+#post .post .user-info img {
     border-radius: 100%;
 }
 
-#posts .post .user-info {
+#post .post .user-info {
     display: flex;
     align-items: center;
 }
 
-#posts .post .user-info h2 {
+#post .post .user-info h2 {
     margin: 0 1rem;
 }
 
@@ -121,25 +141,27 @@ ul {
 }
 
 /* Likes */
+.post-info a {
+    text-decoration: none;
+    margin-right: 10px;
+}
+.post-info h5 {
+    display: inline-block;
+}
 .likes {
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
-
-.likes .likes-number {
-    font-size: 2rem;
-}
-
 
 /* Taggs */
-#posts .post .taggs {
+#post .post .taggs {
     padding: 1rem 0;
 }
 
-#posts .post .taggs ul li  {
+#post .post .taggs ul li  {
     display: inline-block;
 }
 
-#posts .post .taggs ul li a{
+#post .post .taggs ul li a{
     background: var(--navbar-background-color);
     padding: 0.5rem;
     border-radius: 10px;
@@ -147,7 +169,7 @@ ul {
     cursor: pointer;
 }
 
-#posts .post .taggs ul li a:hover{
+#post .post .taggs ul li a:hover{
     box-shadow: 3px 3px 10px 1px rgba(0,0,0,0.3);;
 }
 
@@ -164,6 +186,20 @@ ul {
 .comments .comment a {
     font-size: 1.25rem;
     color: #04302c;
+}
+
+#comment-form textarea {
+    height: 60px;
+    width: 100%;
+    padding: 10px;
+    border: 1px #ddd solid;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#comment-form textarea:focus {
+    outline: none;
+    border-color: #b8e4e0;
 }
 
 footer {

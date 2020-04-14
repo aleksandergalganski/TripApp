@@ -13,15 +13,19 @@
                 <div class="post">
                     <div class="post-info">
                         <div class="user-info">
-{#                            <img src="{{ post.user.profile.image.url }}" alt="user-image" width="60" height="60">#}
-                            <h2>{{ posts.user.username}}</h2>
+                            <img src="{{ post.user.profile.image.url }}" alt="user-image" width="60" height="60">
+                            <h2><a href="{{ post.user.profile.get_absolute_url }}">
+                                {{ posts.user.username}}</a>
+                            </h2>
                         </div>
-                        <h2>{{ post.name }}</h2>
+                        <h2><a href="{{ post.get_absolute_url }}">{{ post.name }}</a></h2>
                         <h5>{{ post.location }}</h5>
-{#                        <h5>{{ post.created|date:"%d %B %Y" }}</h5>#}
-                        <p>{{ pos.about }}</p>
+                        <h5>{{ post.created|date:"j M Y" }}</h5>
+                        <p>{{ post.about }}</p>
                     </div>
-{#                    <img id="post-image" src="{{ post.image.url }}" alt="image">#}
+                    {% if post.image %}
+                    <img id="post-image" src="{{ post.image.url }}" alt="image">
+                    {% endif %}
                     <div class="post-info">
                         <span class="likes"><h5><span class="likes-number">{{ post.get_likes_count }}</span> Like
                         {{ post.get_likes_count|pluralize }}</h5></span>
@@ -37,7 +41,7 @@
                             {% for comment in post.comments.all %}
                                 <div class="comment">
                                     <a href="{{ comment.user.profile.get_absolute_url }}">
-                                        comment.user.username</a>
+                                        {{ comment.user.username }}</a>
                                     <p>{{ comment.body }}</p>
                                 </div>
                             {% endfor %}

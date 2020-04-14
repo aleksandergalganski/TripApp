@@ -14,17 +14,17 @@
 <body>
     <nav id="navbar">
         <h1 class="logo">
-            <a href="./home.html"><i class="fas fa-camera-retro fa-2x"></i><span class="logo-text">Trip</span>App</a>
+            <a href="{% url "posts:posts_list" %}"><i class="fas fa-camera-retro fa-2x"></i><span class="logo-text">Trip</span>App</a>
         </h1>
         <ul>
-            <li><a class="current">Posts</a></li>
-            <li><a href="#">People</a></li>
-            <li><a href="#">Taggs</a></li>
-            <li><a href="#">Places</a></li>
+            <li><a class="current" href="{% url "posts:posts_list" %}">Posts</a></li>
+            <li><a href="{% url "users:users_list" %}">People</a></li>
+            <li><a href="{% url "posts:tag_list" %}">Tags</a></li>
+            <li><a href="{% url "posts:location_list" %}">Places</a></li>
             <li><a>Create Post</a></li>
             <li><a>My Posts</a></li>
             <li><a>Profile</a></li>
-            <li><a href="#"><i class="fas fa-sign-out-alt fa-1x"></i>Logout</a></li>
+            <li><a href="{% url "users:logout" %}"><i class="fas fa-sign-out-alt fa-1x"></i>Logout</a></li>
         </ul>
     </nav>
 

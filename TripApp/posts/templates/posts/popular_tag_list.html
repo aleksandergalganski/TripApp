@@ -1,0 +1,20 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static "css/tag_list_style.css" %}">
+{% endblock %}
+
+{% block title %}Tag List{% endblock %}
+
+{% block content %}
+    <section id="tags">
+        <div class="container">
+            <ol>
+                {% for tag in tags %}
+                    <li><a href="{% url "posts:tagged_posts" tag.slug %}"> #{{ tag.name }}</a></li>
+                {% endfor %}
+            </ol>
+        </div>
+    </section>
+{% endblock %}
+

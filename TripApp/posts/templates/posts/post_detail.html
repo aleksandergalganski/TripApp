@@ -1,0 +1,59 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static "css/post_detail_style.css" %}">
+{% endblock %}
+
+{% block title %}{{ post.name }}{% endblock %}
+
+{% block content %}
+    <section id="post">
+        <div class="container">
+            <div class="post">
+                <div class="post-info">
+                    <div class="user-info">
+                      <img src="{{ post.user.profile.image.url }}" alt="user-image" width="60" height="60">
+                        <h2><a href="{{ post.user.profile.get_absolute_url }}">
+                            {{ posts.user.username}}</a>
+                        </h2>
+                    </div>
+                    <h2><a href="{{ post.get_absolute_url }}">{{ post.name }}</a></h2>
+                    <h5>{{ post.location }}</h5>
+                   <h5>{{ post.created|date:"j M Y" }}</h5>
+                    <p>{{ post.about }}</p>
+                </div>
+               <img id="post-image" src="{{ post.image.url }}" alt="image">
+                <div class="post-info">
+                    <a href="{{ post.get_like_url }}"><i class="fas fa-thumbs-up fa-2x"></i></a>
+                    <span class="likes"><h5><span class="likes-number">{{ post.get_likes_count }}</span> Like
+                        {{ post.get_likes_count|pluralize }}</h5></span>
+                    <div class="taggs">
+                        <ul>
+                            {% for tag in post.tags.all %}
+                                <li><span class="tag"><a href="{% url "posts:tagged_posts" tag.slug %}">
+                                    {{ tag.name }}</a></span></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="comments">
+                        {% for comment in post.comments.all %}
+                            <div class="comment">
+                                <a href="{% url "users:user_detail" comment.user.pk %}">
+                                    {{  comment.user.username}}</a>
+                                <p>{{ comment.body }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <form id="comment-form" method="post">
+                        {% csrf_token %}
+                        <textarea name="body" required id="id_body"></textarea>
+                        <button type="submit" class="btn">Add Comment</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+{% endblock %}
+
+
+
+

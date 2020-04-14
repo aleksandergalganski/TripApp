@@ -1,0 +1,20 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static "css/tag_list_style.css" %}">
+{% endblock %}
+
+{% block title %}Location List{% endblock %}
+
+{% block content %}
+    <section id="tags">
+        <div class="container">
+            <ol>
+                {% for location in locations %}
+                <li><a> {{ location.location }}</a></li>
+                {% endfor %}
+            </ol>
+        </div>
+    </section>
+{% endblock %}
+

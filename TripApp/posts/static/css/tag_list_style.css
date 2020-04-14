@@ -1,0 +1,68 @@
+#tags {
+    padding: 2rem;
+    line-height: 1.1;
+}
+#tags ol {
+    list-style: none;
+    counter-reset: my-counter;
+    color: #333;
+}
+
+#tags li {
+    counter-increment: my-counter;
+}
+#tags li a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#tags li:hover {
+    counter-increment: my-counter;
+}
+
+#tags li:before {
+    content: counter(my-counter);
+    color: #71c9c1;
+}
+
+#tags ol li:first-child{
+    font-size: 120px;
+}
+
+#tags ol li:nth-child(2) {
+    font-size: 100px;
+}
+
+#tags ol li:nth-child(3) {
+    font-size: 60px;
+}
+
+#tags ol li:nth-child(4) {
+    font-size: 60px;
+
+}
+
+#tags ol li:nth-child(5) {
+    font-size: 40px;
+}
+
+#tags ol li:nth-child(6) {
+    font-size: 30px;
+}
+
+#tags ol li:nth-child(7) {
+    font-size: 20px;
+}
+
+#tags ol li:nth-child(8) {
+    font-size: 20px;
+}
+
+#tags ol li:nth-child(9) {
+    font-size: 20px;
+}
+
+#tags ol li:nth-child(10) {
+    font-size: 20px;
+}
+

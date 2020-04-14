@@ -12,6 +12,8 @@ from taggit.models import Tag
 
 
 def home(request):
+    if request.user.is_authenticated:
+        return redirect('posts:posts_list')
     return render(request, 'posts/home.html', {})
 
 
@@ -161,5 +163,5 @@ def popular_tag_list(request):
 
 @login_required
 def popular_location_list(request):
-    locations = Post.objects.values('location').annotate(my_count=Count('location')).order_by('my_count')[:10]
+    locations = Post.objects.values('location').annotate(my_count=Count('location')).order_by('-my_count')[:10]
     return render(request, 'posts/popular_location_list.html', {'locations': locations})
