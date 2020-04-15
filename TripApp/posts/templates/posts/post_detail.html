@@ -13,7 +13,7 @@
                 <div class="post-info">
                     <div class="user-info">
                         <div class="info">
-                            <img src="{{ user.profile.image.url }}" alt="user-image" width="60" height="60">
+                            <img src="{{ user.profile.image_url }}" alt="user-image" width="60" height="60">
                             <h2>{{ user.username }}</h2>
                         </div>
                         <div class="icons">
@@ -28,7 +28,7 @@
                     <h5>{{ post.created|date:"j M Y" }}</h5>
                     <p>{{ post.about }}</p>
                 </div>
-               <img id="post-image" src="{{ post.image.url }}" alt="image">
+               <img id="post-image" src="{{ post.image_url }}" alt="image">
                 <div class="post-info">
                 {% if request.user not in post.likes.all %}
                     <a href="{{ post.get_like_url }}"><i class="fas fa-thumbs-up fa-2x"></i></a>

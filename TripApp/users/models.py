@@ -23,6 +23,12 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('users:user_detail', args=[self.user.pk])
 
+    @property
+    def image_url(self):
+        if self.image:
+            return self.image.url
+        return '#'
+
     def get_posts_count(self):
         return self.user.posts.all().count()
 

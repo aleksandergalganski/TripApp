@@ -10,7 +10,7 @@
         <div class="container">
             <div class="user-profile">
                 {% if user.profile.image %}
-                  <img src="{{ user.profile.image.url }}" alt="person" width="150" height="150">
+                  <img src="{{ user.profile.image_url }}" alt="person" width="150" height="150">
                 {% endif %}
                 <div class="user-description">
                     <h1>{{ user.username }}</h1>
@@ -27,7 +27,7 @@
             <div class="posts">
                 {% for post in posts %}
                     <a href="{{ post.get_absolute_url }}">
-                          <img src="{{ post.image.url }}" width="300" height="300" alt="image">
+                          <img src="{{ post.image_url }}" width="300" height="300" alt="image">
                     </a>
                 {% empty %}
                     <h2>0 posts :(</h2>

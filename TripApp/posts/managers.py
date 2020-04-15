@@ -6,7 +6,7 @@ class PostQuerySet(models.QuerySet):
         return self.filter(user__username=username)
 
     def actives(self):
-        return self.filter(active=True)
+        return self.filter(active=True).order_by('-created')
 
 
 class PostManager(models.Manager):

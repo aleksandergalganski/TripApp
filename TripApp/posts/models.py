@@ -31,6 +31,12 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.name}-{self.user.username}-{self.created}'
 
+    @property
+    def image_url(self):
+        if self.image:
+            return self.image.url
+        return '#'
+
     def get_like_url(self):
         return reverse('posts:post_like', args=[self.pk])
 
@@ -60,7 +66,7 @@ class Post(models.Model):
 
     class Meta:
         verbose_name = 'post'
-        verbose_nam_plural = 'posts'
+        verbose_name_plural = 'posts'
 
 
 class Comment(models.Model):

@@ -16,7 +16,7 @@
                         <div class="user-info">
                             <a href="{{ post.user.profile.get_absolute_url }}">
                                 <div style="display: flex">
-                                    <img src="{{ post.user.profile.image.url }}" alt="user-image" width="60" height="60">
+                                    <img src="{{ post.user.profile.image_url }}" alt="user-image" width="60" height="60">
                                     <h2>{{ post.user.username}}</h2>
                                 </div>
                             </a>
@@ -27,7 +27,7 @@
                         <p>{{ post.about }}</p>
                     </div>
                     {% if post.image %}
-                    <img id="post-image" src="{{ post.image.url }}" alt="image">
+                    <img id="post-image" src="{{ post.image_url }}" alt="image">
                     {% endif %}
                     <div class="post-info">
                         <span class="likes"><h5><span class="likes-number">{{ post.get_likes_count }}</span> Like

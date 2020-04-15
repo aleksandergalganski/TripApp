@@ -194,7 +194,7 @@ class UpdatePostTest(TestCase):
         self.assertEqual(self.post.name, 'updated name')
         self.assertEqual(self.post.about, 'updated about')
         self.assertListEqual(sorted(list(self.post.tags.names())), sorted(['tag4', 'tag5', 'tag6']))
-        self.assertEqual(self.post.location, 'updated location')
+        self.assertEqual(self.post.location, 'Updated Location')
 
 
 class DeletePostTest(TestCase):

@@ -19,7 +19,7 @@ def home(request):
 
 @login_required
 def posts_list(request):
-    posts_list = Post.posts.actives.order_by('created')
+    posts_list = Post.posts.actives()
     paginator = Paginator(posts_list, 5)
     page = request.GET.get('page')
     posts = None

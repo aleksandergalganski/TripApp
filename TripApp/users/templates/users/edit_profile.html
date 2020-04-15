@@ -27,10 +27,10 @@
                 <textarea name="bio" required id="id_bio">{{ user.profile.bio }}</textarea>
             </div>
             <div class="form-group last">
-                <img src="{{ request.user.profile.image.url }}" alt="image" width="100" height="100">
+                <img src="{{ request.user.profile.image_url }}" alt="image" width="100" height="100">
                 <div class="image-input">
                     <label for="id_image">Profile Image</label>
-                    <input type="file" name="image" accept="image/*" id="id_image" value="{{ user.profile.image.url }}">
+                    <input type="file" name="image" accept="image/*" id="id_image" value="{{ user.profile.image_url }}">
                 </div>
             </div>
             <button type="submit">Save</button>
