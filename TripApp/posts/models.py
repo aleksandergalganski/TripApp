@@ -44,6 +44,11 @@ class Post(models.Model):
     def get_likes_count(self):
         return self.likes.count()
 
+    @property
+    def tags_to_str(self):
+        tags = [tag.name for tag in self.tags.all()]
+        return ', '.join(tags)
+
     def save(self, *args, **kwargs):
         """ Resizing an image """
         super(Post, self).save(*args, **kwargs)
