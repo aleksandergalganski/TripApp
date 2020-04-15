@@ -14,10 +14,12 @@
                 <div class="post">
                     <div class="post-info">
                         <div class="user-info">
-                            <img src="{{ post.user.profile.image.url }}" alt="user-image" width="60" height="60">
-                            <h2><a href="{{ post.user.profile.get_absolute_url }}">
-                                {{ posts.user.username}}</a>
-                            </h2>
+                            <a href="{{ post.user.profile.get_absolute_url }}">
+                                <div style="display: flex">
+                                    <img src="{{ post.user.profile.image.url }}" alt="user-image" width="60" height="60">
+                                    <h2>{{ post.user.username}}</h2>
+                                </div>
+                            </a>
                         </div>
                         <h2><a href="{{ post.get_absolute_url }}">{{ post.name }}</a></h2>
                         <h5>{{ post.location }}</h5>

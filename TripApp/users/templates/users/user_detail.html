@@ -9,10 +9,12 @@
     <section id="user">
         <div class="container">
             <div class="user-profile">
-                <img src="{{ user.profile.image.url }}" alt="person" width="150" height="150">
+                {% if user.profile.image %}
+                  <img src="{{ user.profile.image.url }}" alt="person" width="150" height="150">
+                {% endif %}
                 <div class="user-description">
                     <h1>{{ user.username }}</h1>
-                    <h4>{{ user.location }}</h4>
+                    <h4>{{ user.profile.location }}</h4>
                     <h5>Posts: {{ user.profile.get_posts_count }}</h5>
                     <p>{{ user.profile.bio }}</p>
                 </div>

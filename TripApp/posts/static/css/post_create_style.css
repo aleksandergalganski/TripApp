@@ -18,7 +18,8 @@
     font-size: 20px;
 }
 
-#post-form .form-group input[type="text"] {
+#post-form .form-group input[type="text"],
+#post-form .form-group input[type="email"] {
     width: 90%;
     padding: 10px;
     border: #ddd 1px solid;
@@ -29,6 +30,7 @@
 }
 
 #post-form .form-group input[type="text"]:hover,
+#post-form .form-group input[type="email"]:hover,
 #post-form .form-group textarea:hover {
     outline: none;
     border-color: #13A699;
@@ -49,9 +51,22 @@
     box-shadow: 3px 3px 30px 5px rgba(204,204,204,0.9);
 }
 
+#post-form .form-group input[type="file"] {
+    cursor: pointer;
+    background: #13A699;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.5s ease-in-out;
+}
+
+#post-form .form-group input[type="file"]:hover {
+    background: #caebe8;
+}
+
 #post-form button {
     display: inline-block;
     padding: 10px;
+    margin-top: 10px;
     border-radius: 10px;
     border: none;
     width: 20%;
@@ -59,8 +74,18 @@
     color: white;
     background: #0b635b;
     cursor: pointer;
+    transition: all 0.5s ease-in-out;
 }
 
 #post-form button:hover {
     background: #073834;
+}
+
+#post-form .form-group img{
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.last{
+    display: flex;
 }
