@@ -1,0 +1,22 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static "css/post_delete_confirm_style.css" %}">
+{% endblock %}
+
+{% block title %}Delete Comment{% endblock %}
+
+{% block content %}
+    <section id="delete-post">
+        <div class="container">
+            <h1>Are you sure you want delete this comment?</h1>
+            <div id="delete-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Yes</button>
+                    <a href="{% url "posts:post_detail" post.pk %}" class="btn">No</a>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

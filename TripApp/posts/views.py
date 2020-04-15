@@ -23,7 +23,7 @@ def posts_list(request):
     paginator = Paginator(posts_list, 5)
     page = request.GET.get('page')
     posts = None
-    common_tags = Post.tags.most_common()[:4]
+
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -31,8 +31,7 @@ def posts_list(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    return render(request, 'posts/posts_list.html', {'page': page, 'posts': posts,
-                                                     'common_tags': common_tags})
+    return render(request, 'posts/posts_list.html', {'page': page, 'posts': posts})
 
 
 @login_required
@@ -149,12 +148,13 @@ def update_comment(request, comment_id):
                 return redirect(reverse('posts:post_detail', args=[comment.post.pk]))
         else:
             comment_form = CommentForm(instance=comment)
-        return render(request, 'posts/comment_update.html', {'comment_form': comment_form})
+        return render(request, 'posts/comment_update.html', {'comment_form': comment_form, 'comment': comment})
 
 
 @login_required
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
+    post = get_object_or_404(Post, pk=comment.post.pk)
     if request.user != comment.user:
         raise PermissionDenied
     else:
@@ -162,7 +162,7 @@ def delete_comment(request, comment_id):
             comment.delete()
             messages.success(request, 'Your comment has been deleted')
             return redirect(reverse('posts:post_detail', args=[comment.post.pk]))
-        return render(request, 'posts/comment_delete_confirm.html', {})
+        return render(request, 'posts/comment_delete_confirm.html', {'post': post})
 
 
 @login_required

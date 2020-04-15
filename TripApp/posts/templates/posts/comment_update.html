@@ -1,0 +1,23 @@
+{% extends "posts/base.html" %}
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static "css/comment_update_style.css" %}">
+{% endblock %}
+
+{% block title %}Update Comment{% endblock %}
+
+{% block content %}
+    <section id="comment-update">
+        <div class="container">
+            <div id="update-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <textarea name="body" required id="id_body">{{ comment.body }}</textarea>
+                    <div class="button">
+                        <button type="submit" >Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

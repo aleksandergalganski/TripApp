@@ -30,7 +30,11 @@
                 </div>
                <img id="post-image" src="{{ post.image.url }}" alt="image">
                 <div class="post-info">
+                {% if request.user not in post.likes.all %}
                     <a href="{{ post.get_like_url }}"><i class="fas fa-thumbs-up fa-2x"></i></a>
+                {% else %}
+                    <a href="{{ post.get_like_url }}"><i class="fas fa-thumbs-down fa-2x"></i></a>
+                {% endif %}
                     <span class="likes">
                         <h5><span class="likes-number">{{ post.get_likes_count }}</span> Like{{ post.get_likes_count|pluralize }}
                         </h5></span>

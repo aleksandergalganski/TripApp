@@ -41,7 +41,7 @@
                             </ul>
                         </div>
                         <div class="comments">
-                            {% for comment in post.comments.all %}
+                            {% for comment in post.comments.all|slice:":3" %}
                                 <div class="comment">
                                     <a href="{{ comment.user.profile.get_absolute_url }}">
                                         {{ comment.user.username }}</a>
