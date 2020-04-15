@@ -14,12 +14,12 @@ from taggit.models import Tag
 def home(request):
     if request.user.is_authenticated:
         return redirect('posts:posts_list')
-    return render(request, 'posts/home.html', {})
+    return render(request, 'posts/home.html')
 
 
 @login_required
 def posts_list(request):
-    posts_list = Post.actives.order_by('created')
+    posts_list = Post.posts.actives.order_by('created')
     paginator = Paginator(posts_list, 5)
     page = request.GET.get('page')
     posts = None

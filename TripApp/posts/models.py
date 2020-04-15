@@ -7,10 +7,7 @@ from taggit.managers import TaggableManager
 
 from PIL import Image
 
-
-class ActivePostsManager(models.Manager):
-    def get_queryset(self):
-        return super(ActivePostsManager, self).get_queryset().filter(active=True)
+from .managers import PostManager, CommentManager
 
 
 class Post(models.Model):
@@ -28,8 +25,8 @@ class Post(models.Model):
                                    related_name='posts_likes')
     # Default Manager
     objects = models.Manager()
-    # Custom Manager for active posts
-    actives = ActivePostsManager()
+    # Custom Manager
+    posts = PostManager()
 
     def __str__(self):
         return f'{self.name}-{self.user.username}-{self.created}'
@@ -61,6 +58,10 @@ class Post(models.Model):
                 img.thumbnail(output_size)
                 img.save(self.image.path)
 
+    class Meta:
+        verbose_name = 'post'
+        verbose_nam_plural = 'posts'
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
@@ -69,5 +70,14 @@ class Comment(models.Model):
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
 
+    # Default Manager
+    objects = models.Manager()
+    # Custom Manager
+    comments = CommentManager()
+
     def __str__(self):
         return f'{str(self.post)} commented by {self.user.username}'
+
+    class Meta:
+        verbose_name = 'comment'
+        verbose_name_plural = 'comments'

@@ -132,7 +132,7 @@ class CreatePostTest(TestCase):
         self.assertEqual(last_post.about, 'About post')
         tags_list = self.make_tags_list(last_post.tags.names())
         self.assertListEqual(sorted(tags_list), sorted(['tag1', 'tag2', 'tag3']))
-        self.assertEqual(last_post.location, 'location')
+        self.assertEqual(last_post.location, 'Location')
 
 
 class UpdatePostTest(TestCase):
