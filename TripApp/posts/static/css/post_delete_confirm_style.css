@@ -1,0 +1,51 @@
+/* Delete */
+.container {
+    max-width: 800px;
+}
+
+#delete-post h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #0b635b;
+    margin-bottom: 10px;
+}
+
+#delete-post #delete-form {
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    display: inline-block;
+    background: #71c9c1;
+    color: #04302c;
+    font-size: 24px;
+    border: 0;
+    border-radius: 20px;
+    text-align: center;
+    flex: 1;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    padding: 0.75rem 1.75rem;
+}
+
+#delete-post #delete-form a {
+    padding: 0.3rem 2rem;
+}
+
+.btn:hover {
+    background: #0b635b;
+}
+
+/* Fixed Footer */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #04302c;
+    background: #71c9c1;
+}
