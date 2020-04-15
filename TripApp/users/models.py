@@ -4,12 +4,18 @@ from django.urls import reverse
 
 from PIL import Image
 
+from .managers import ProfileManager
+
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='users/%Y/%m/%d', blank=True, null=True)
     bio = models.TextField(max_length=500)
     location = models.CharField(max_length=50)
+    # Default Manager
+    objects = models.Manager()
+    # Custom Manager
+    profiles = ProfileManager()
 
     def __str__(self):
         return f'Profile for user {self.user.username}'
