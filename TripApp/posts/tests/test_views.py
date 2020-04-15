@@ -412,8 +412,91 @@ class DeleteCommentTest(TestCase):
 
 
 class TestPopularTags(TestCase):
-    pass
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/posts/tags/')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/users/login/?next=/posts/tags/')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get('/posts/tags/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:tag_list'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:tag_list'))
+        self.assertTemplateUsed(response, 'posts/popular_tag_list.html')
+
+    @staticmethod
+    def make_tag_list(tags):
+        return [tag.name for tag in tags.all()]
+
+    def test_tags(self):
+        self.client.login(username='testuser', password='password')
+        tags = ('red blue', 'red green', 'red green', 'red blue', 'red green black')
+        data = {
+            'name': 'post',
+            'about': '...',
+            'tags': '',
+            'location': 'test location'
+        }
+        for i in range(len(tags)):
+            data['tags'] = tags[i]
+            self.client.post('/posts/create/', data)
+        response = self.client.get(reverse('posts:tag_list'))
+        tag_list = self.make_tag_list(response.context['tags'])
+        expected = ['red', 'green', 'blue', 'black']
+        self.assertEqual(len(tag_list), 4)
+        self.assertListEqual(tag_list, expected)
 
 
 class TestPopularLocations(TestCase):
-    pass
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get('/posts/locations/')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/users/login/?next=/posts/locations/')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get('/posts/locations/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:location_list'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        self.client.login(username='testuser', password='password')
+        response = self.client.get(reverse('posts:location_list'))
+        self.assertTemplateUsed(response, 'posts/popular_location_list.html')
+
+    @staticmethod
+    def make_location_list(locations):
+        return [location['location'] for location in locations]
+
+    def test_location_list(self):
+        self.client.login(username='testuser', password='password')
+        locations = ('Gdansk', 'Gdansk', 'Gdansk', 'Kolobrzeg', 'Kolobrzeg',
+                     'Berlin', 'Berlin', 'Berlin', 'Berlin', 'Warszawa')
+        for i in range(len(locations)):
+            Post.objects.create(name='post', user=self.user, about='...',
+                                location=locations[i])
+        response = self.client.get(reverse('posts:location_list'))
+        location_list = self.make_location_list(response.context['locations'])
+        self.assertEqual(len(response.context['locations']), 4)
+        self.assertListEqual(location_list, ['Berlin', 'Gdansk', 'Kolobrzeg', 'Warszawa'])
+
+
+
