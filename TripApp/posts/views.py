@@ -90,7 +90,7 @@ def update_post(request, post_id):
         else:
             post_form = PostForm(instance=post)
 
-        return render(request, 'posts/post_update.html', {'post_form': post_form})
+        return render(request, 'posts/post_update.html', {'post_form': post_form, 'post': post})
 
 
 @login_required
