@@ -129,6 +129,11 @@ ul {
 #post .post .user-info {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+
+#post .post .user-info .info {
+    display: flex;
 }
 
 #post .post .user-info h2 {
@@ -183,9 +188,26 @@ ul {
     color: #04302c;
 }
 
+.comment-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
 .comments .comment a {
     font-size: 1.25rem;
     color: #04302c;
+}
+
+.comments .comment .comment-content {
+    flex: 8;
+}
+
+.comments .comment .icons {
+    flex: 1;
+}
+
+.comments .comment .icons i {
+    margin-right: 3px;
 }
 
 #comment-form textarea {
