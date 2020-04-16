@@ -64,8 +64,8 @@ def logout(request):
 def user_detail(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     posts = Post.objects.filter(user=user).order_by('-created')
-    posts_count = user.profile.get_posts_count()
-    user_likes_count = user.profile.get_total_likes_count()
+    posts_count = user.profile.get_posts_count
+    user_likes_count = user.profile.get_total_likes_count
     return render(request, 'users/user_detail.html', {'user': user,
                                                       'posts': posts,
                                                       'posts_count': posts_count,

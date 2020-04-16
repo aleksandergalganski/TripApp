@@ -67,7 +67,7 @@ def create_post(request):
             # saving tags
             post_form.save_m2m()
             messages.success(request, 'New post successfully created')
-            return redirect(new_post.get_absolute_url())
+            return redirect(new_post.get_absolute_url)
     else:
         post_form = PostForm()
     return render(request, 'posts/post_create.html', {'post_form': post_form})
@@ -85,7 +85,7 @@ def update_post(request, post_id):
             if post_form.is_valid():
                 post_form.save()
                 messages.success(request, 'Your post has been updated')
-                return redirect(post.get_absolute_url())
+                return redirect(post.get_absolute_url)
         else:
             post_form = PostForm(instance=post)
 
@@ -131,7 +131,7 @@ def post_like(request, post_id):
         post.likes.remove(user)
     else:
         post.likes.add(user)
-    return redirect(post.get_absolute_url())
+    return redirect(post.get_absolute_url)
 
 
 @login_required

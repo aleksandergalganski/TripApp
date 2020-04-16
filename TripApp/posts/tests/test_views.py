@@ -178,7 +178,7 @@ class UpdatePostTest(TestCase):
         response = self.client.post(reverse('posts:update_post', args=[self.post.pk]), data)
         self.post.refresh_from_db()
         self.assertEqual(self.post.about, 'updated about')
-        self.assertRedirects(response, self.post.get_absolute_url())
+        self.assertRedirects(response, self.post.get_absolute_url)
 
     def test_update_all_values(self):
         self.client.login(username='testuser', password='password')
@@ -190,7 +190,7 @@ class UpdatePostTest(TestCase):
         }
         response = self.client.post(reverse('posts:update_post', args=[self.post.pk]), data)
         self.post.refresh_from_db()
-        self.assertRedirects(response, self.post.get_absolute_url())
+        self.assertRedirects(response, self.post.get_absolute_url)
         self.assertEqual(self.post.name, 'updated name')
         self.assertEqual(self.post.about, 'updated about')
         self.assertListEqual(sorted(list(self.post.tags.names())), sorted(['tag4', 'tag5', 'tag6']))
@@ -324,7 +324,7 @@ class PostLikeTest(TestCase):
         response = self.client.get(f'/like/{self.post.pk}/')
         self.post.refresh_from_db()
         self.assertEqual(self.post.get_likes_count, 4)
-        self.assertRedirects(response, self.post.get_absolute_url())
+        self.assertRedirects(response, self.post.get_absolute_url)
 
 
 class UpdateCommentTest(TestCase):
