@@ -3,10 +3,13 @@ from django.db import models
 
 class PostQuerySet(models.QuerySet):
     def get_users_posts(self, username):
-        return self.filter(user__username=username)
+        return self.filter(user__username=username).order_by('-created')
 
     def actives(self):
         return self.filter(active=True).order_by('-created')
+
+    def get_posts_by_location(self, location):
+        return self.filter(active=True).filter(location__contains=location).order_by('-created')
 
 
 class PostManager(models.Manager):
@@ -18,6 +21,9 @@ class PostManager(models.Manager):
 
     def actives(self):
         return self.get_queryset().actives()
+
+    def get_posts_by_location(self, location):
+        return self.get_queryset().get_posts_by_location(location)
 
 
 class CommentQuerySet(models.QuerySet):
