@@ -37,9 +37,11 @@ class Post(models.Model):
             return self.image.url
         return '#'
 
+    @property
     def get_like_url(self):
         return reverse('posts:post_like', args=[self.pk])
 
+    @property
     def get_absolute_url(self):
         return reverse('posts:post_detail', args=[self.pk])
 

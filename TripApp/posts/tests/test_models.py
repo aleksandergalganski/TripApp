@@ -32,7 +32,7 @@ class PostModelTest(TestCase):
         self.assertEqual(str(self.post), f'test_post-test-{self.post.created}')
 
     def test_get_absolute_url_method(self):
-        self.assertEqual(self.post.get_absolute_url(), f'/posts/{self.post.id}/')
+        self.assertEqual(self.post.get_absolute_url, f'/posts/{self.post.id}/')
 
     def test_get_likes_count(self):
         pass

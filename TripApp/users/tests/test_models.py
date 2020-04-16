@@ -26,7 +26,7 @@ class ProfileModelTestCase(TestCase):
             Post.objects.create(name=f'Post {i}', user=self.user, about='...',
                                 location='Test Location')
 
-        self.assertEqual(self.profile.get_posts_count(), 2)
+        self.assertEqual(self.profile.get_posts_count, 2)
 
     def test_get_total_likes_count(self):
         likes_count = 5
@@ -40,4 +40,4 @@ class ProfileModelTestCase(TestCase):
             post1.likes.add(user)
             post2.likes.add(user)
 
-        self.assertEqual(self.profile.get_total_likes_count(), 10)
+        self.assertEqual(self.profile.get_total_likes_count, 10)

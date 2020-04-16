@@ -29,9 +29,11 @@ class Profile(models.Model):
             return self.image.url
         return '#'
 
+    @property
     def get_posts_count(self):
         return self.user.posts.all().count()
 
+    @property
     def get_total_likes_count(self):
         likes_count = 0
         user_posts = self.user.posts.all()
