@@ -31,4 +31,16 @@ $ python manage.py runserver
 ```
 
 ## Demo
-soon
+<img src="./demo_img/tripapp1.PNG" width="500" height="500"/>
+<hr>
+<img src="./demo_img/tripaap2.PNG" width="500" height="500"/>
+<hr>
+<img src="./demo_img/tripapp3.PNG" width="500" height="500"/>
+<hr>
+<img src="./demo_img/tripapp4.PNG" width="500" height="500"/>
+<hr>
+<img src="./demo_img/tripapp5.PNG" width="500" height="500"/>
+<hr>
+<img src="./demo_img/tripapp6.PNG" width="500" height="500"/>
+<hr>
+All photos for demo I took from https://unsplash.com/.
