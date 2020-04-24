@@ -33,7 +33,7 @@ $ python manage.py runserver
 ## Demo
 <img src="./demo_img/tripapp1.PNG"/>
 <hr>
-<img src="./demo_img/tripaap2.PNG"/>
+<img src="./demo_img/tripapp2.PNG"/>
 <hr>
 <img src="./demo_img/tripapp3.PNG"/>
 <hr>
