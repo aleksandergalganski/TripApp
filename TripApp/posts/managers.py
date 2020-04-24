@@ -11,6 +11,12 @@ class PostQuerySet(models.QuerySet):
     def get_posts_by_location(self, location):
         return self.filter(active=True).filter(location__contains=location).order_by('-created')
 
+    def after(self, date):
+        pass
+
+    def before(self, date):
+        pass
+
 
 class PostManager(models.Manager):
     def get_queryset(self):
@@ -24,6 +30,12 @@ class PostManager(models.Manager):
 
     def get_posts_by_location(self, location):
         return self.get_queryset().get_posts_by_location(location)
+
+    def after(self, date):
+        pass
+
+    def before(self, date):
+        pass
 
 
 class CommentQuerySet(models.QuerySet):
