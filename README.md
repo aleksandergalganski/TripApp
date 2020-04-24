@@ -31,16 +31,16 @@ $ python manage.py runserver
 ```
 
 ## Demo
-<img src="./demo_img/tripapp1.PNG" width="500" height="500"/>
+<img src="./demo_img/tripapp1.PNG"/>
 <hr>
-<img src="./demo_img/tripaap2.PNG" width="500" height="500"/>
+<img src="./demo_img/tripaap2.PNG"/>
 <hr>
-<img src="./demo_img/tripapp3.PNG" width="500" height="500"/>
+<img src="./demo_img/tripapp3.PNG"/>
 <hr>
-<img src="./demo_img/tripapp4.PNG" width="500" height="500"/>
+<img src="./demo_img/tripapp4.PNG"/>
 <hr>
-<img src="./demo_img/tripapp5.PNG" width="500" height="500"/>
+<img src="./demo_img/tripapp5.PNG"/>
 <hr>
-<img src="./demo_img/tripapp6.PNG" width="500" height="500"/>
+<img src="./demo_img/tripapp6.PNG"/>
 <hr>
 All photos for demo I took from https://unsplash.com/.
